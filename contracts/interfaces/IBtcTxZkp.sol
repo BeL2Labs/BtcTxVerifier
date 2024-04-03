@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 enum ProofStatus {
     toBeVerified,
@@ -13,7 +13,7 @@ struct RawTransaction {
     ProofStatus status;
 }
 
-interface IZkpOrder {
+interface IBtcTxZkp {
     function addTransaction(bytes memory rawData, bytes[] memory utxos) external returns (bytes32);
 
     function getOrderStatus(bytes32 hash) external view returns(ProofStatus);

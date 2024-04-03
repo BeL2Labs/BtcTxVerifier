@@ -15,14 +15,13 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
     mapping(bytes32 => TxVerifyRecord) private txVerifyRecords;
 
     ///@custom:oz-upgrades-unsafe-allow constructor
-    constructor(address _btcTxZkpAddr, address _btcHeaderAddr) {
-        btcTxZkpAddr = _btcTxZkpAddr;
-        btcHeaderAddr = _btcHeaderAddr;
-    }
+    constructor() { _disableInitializers(); }
 
     /// @dev Initialize the contract
-    function initialize() public initializer {
+    function initialize(address _btcTxZkpAddr, address _btcHeaderAddr) public initializer {
         __Ownable_init(msg.sender);
+        btcTxZkpAddr = _btcTxZkpAddr;
+        btcHeaderAddr = _btcHeaderAddr;
     }
 
     /// @dev Submit a Bitcoin transaction for verification and ZKP generation
@@ -53,7 +52,7 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
         require(calculatedRoot == blockMerkleRoot, "InvalidMerkleProof");
         
         require(btcTxZkpAddr != address(0), "InvalidBtcTxZkpAddress");
-        bytes32 zkpID = IBtcTxZkp(btcTxZkpAddr).generateTxProof(rawTx, utxos);
+        bytes32 zkpID = IBtcTxZkp(btcTxZkpAddr).addTransaction(rawTx, utxos);
 
         txVerifyRecords[txHash] = TxVerifyRecord(btcTxZkpAddr, zkpID);
         zkpID = MerkleProof.reverseBytes32(zkpID);
@@ -76,7 +75,7 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
         if (record.btcTxZkpAddr == address(0)) {
             revert("RecordNotFound");
         }
-        return IBtcTxZkp(record.btcTxZkpAddr).getProofStatus(record.zkpID);
+        return IBtcTxZkp(record.btcTxZkpAddr).getOrderStatus(record.zkpID);
     }
 
     /// @dev Get the details of a verified Bitcoin transaction
@@ -94,7 +93,7 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
         if (record.btcTxZkpAddr == address(0)) {
             revert("RecordNotFound");
         }
-        return IBtcTxZkp(record.btcTxZkpAddr).getTxDetails(record.zkpID, network);
+        return IBtcTxZkp(record.btcTxZkpAddr).getOrderDetails(record.zkpID, network);
     }
 
     /// @dev Set the address of the Bitcoin block header contract

@@ -1,5 +1,5 @@
 {
-  "name": "BTCZKVerifier",
+  "name": "BtcTxVerifier",
   "scripts": {
     "compile": "hardhat compile"
   },

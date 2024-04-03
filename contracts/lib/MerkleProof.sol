@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 library MerkleProof {
-    function getBitCoinMerkleRoot(
+    function getBitcoinMerkleRoot(
         bytes32[] memory proof,
         bytes32 leaf,
         bool[] memory positions
