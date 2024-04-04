@@ -5,11 +5,7 @@
 ## Contract Addresses
 
 Please select the appropriate contract address based on the network you are using:
-
-- Ethereum Mainnet: `0x1234...`
-- Ethereum Goerli Testnet: `0x5678...`
-- Polygon Mainnet: `0xabcd...`
-- Polygon Mumbai Testnet: `0xef01...`
+- ESC Mainnet:  `0x5293a9471A4A004874cea7301aC8936F8830BdF2`
 
 Please replace the contract addresses with the actual deployed addresses.
 
