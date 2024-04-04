@@ -1,0 +1,111 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xA34F8a3F1C1F99E86F7908b33ecf418616888E0c",
+    "txHash": "0x70590798fcd620b886fcc54fa018811abf3653d6875c5bd5a92bc3328452583b"
+  },
+  "proxies": [
+    {
+      "address": "0x5293a9471A4A004874cea7301aC8936F8830BdF2",
+      "txHash": "0xdee29539a4d3eef9e228c2f35d3945e4327e1ef5c81fc48243b69c219db7de79",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "35227b7fe7755066d19fa4a0511f4980eba97180ea59c12d552e0e671e5ddb42": {
+      "address": "0xB4fee452E4DC4a865CE00379b62C29c6dd6F95e2",
+      "txHash": "0x35deb9717402d4682403496c5e83b97336bd96661e32fd5bf365ce5f764dec06",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "btcTxZkpAddr",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "BtcTxVerifier",
+            "src": "contracts/BtcTxVerifier.sol:12"
+          },
+          {
+            "label": "btcHeaderAddr",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "BtcTxVerifier",
+            "src": "contracts/BtcTxVerifier.sol:13"
+          },
+          {
+            "label": "txVerifyRecords",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_bytes32,t_struct(TxVerifyRecord)865_storage)",
+            "contract": "BtcTxVerifier",
+            "src": "contracts/BtcTxVerifier.sol:15"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(TxVerifyRecord)865_storage)": {
+            "label": "mapping(bytes32 => struct TxVerifyRecord)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(TxVerifyRecord)865_storage": {
+            "label": "struct TxVerifyRecord",
+            "members": [
+              {
+                "label": "btcTxZkpAddr",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "zkpID",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:73"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

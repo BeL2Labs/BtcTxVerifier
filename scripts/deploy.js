@@ -11,9 +11,9 @@ async function main() {
   const signers = await ethers.getSigners();
   let deployer = signers[0];
     console.log("chainId ", chainID, "deployer =", deployer.address);
-  const factory = await ethers.getContractFactory("BtcZkVerifier", deployer);
+  const factory = await ethers.getContractFactory("BtcTxVerifier", deployer);
   let contract = await upgrades.deployProxy(factory,
-      [],
+      ["0x2cD6A5A6e716b1dEF6587afbb085303721fe8201","0x7a581772B0b21f5B8880E881C495cb7AfDfA228c"],
       {
         initializer: "initialize",
         unsafeAllowLinkedLibraries: true,
