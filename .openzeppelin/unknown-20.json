@@ -106,6 +106,101 @@
           ]
         }
       }
+    },
+    "8ecef077eafd8935f301bca1848161cecd3f1d04761a134a194f578df0c644cf": {
+      "address": "0xd672f170fe2bdB9884D8E7E1Bd8f9DafD7BcB99e",
+      "txHash": "0xb5a9f7f479b834b7d771e7f3cc2d0e580944bbadecf84ecf6cbab405464073da",
+      "layout": {
+        "solcVersion": "0.8.20",
+        "storage": [
+          {
+            "label": "btcTxZkpAddr",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_address",
+            "contract": "BtcTxVerifier",
+            "src": "contracts/BtcTxVerifier.sol:12"
+          },
+          {
+            "label": "btcHeaderAddr",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_address",
+            "contract": "BtcTxVerifier",
+            "src": "contracts/BtcTxVerifier.sol:13"
+          },
+          {
+            "label": "txVerifyRecords",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_bytes32,t_struct(TxVerifyRecord)843_storage)",
+            "contract": "BtcTxVerifier",
+            "src": "contracts/BtcTxVerifier.sol:15"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_bytes32,t_struct(TxVerifyRecord)843_storage)": {
+            "label": "mapping(bytes32 => struct TxVerifyRecord)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(TxVerifyRecord)843_storage": {
+            "label": "struct TxVerifyRecord",
+            "members": [
+              {
+                "label": "btcTxZkpAddr",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "zkpID",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "1"
+              }
+            ],
+            "numberOfBytes": "64"
+          },
+          "t_uint64": {
+            "label": "uint64"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        },
+        "namespaces": {
+          "erc7201:openzeppelin.storage.Ownable": [
+            {
+              "contract": "OwnableUpgradeable",
+              "label": "_owner",
+              "type": "t_address",
+              "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:24"
+            }
+          ],
+          "erc7201:openzeppelin.storage.Initializable": [
+            {
+              "contract": "Initializable",
+              "label": "_initialized",
+              "type": "t_uint64",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:69"
+            },
+            {
+              "contract": "Initializable",
+              "label": "_initializing",
+              "type": "t_bool",
+              "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:73"
+            }
+          ]
+        }
+      }
     }
   }
 }

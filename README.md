@@ -44,48 +44,24 @@ Call the `getTxZkpStatus` function with the transaction hash `txHash` to retriev
 
 Call the `getVerifiedTxDetails` function with the transaction hash `txHash` and network type `network` to retrieve detailed information of a verified transaction, including Bitcoin addresses, amounts, and fees.
 
-## Example
+## Development
+
+Copy `env.example` to `.env`
+
+Open the .env file and configure the private key of the owner of the deployment contract
+Execute the following command
+
+```hardhat
+    yarn install
+    npx hardhat run scripts/deploy.js --network mainnet
+```
 
 Here's an example of submitting a Bitcoin transaction:
 
-```solidity
-// Contract address
-address btcTxVerifierAddress = 0x1234...;
-BtcTxVerifier btcTxVerifier = BtcTxVerifier(btcTxVerifierAddress);
-
-// Raw Bitcoin transaction data
-bytes memory rawTx = 0x0100000001...;
-
-// UTXOs of the transaction
-bytes[] memory utxos = new bytes[](2);
-utxos[0] = 0x...;
-utxos[1] = 0x...;
-
-uint32 blockHeight = 123456;
-
-bytes32[] memory merkleProof = new bytes32[](3);
-merkleProof[0] = 0x...;
-merkleProof[1] = 0x...;
-merkleProof[2] = 0x...;
-
-bytes32 blockMerkleRoot = 0x...;
-bytes32 txHash = 0x...;
-bool[] memory proofPositions = new bool[](3);
-proofPositions[0] = true;
-proofPositions[1] = false;
-proofPositions[2] = true;
-
-// Submit the Bitcoin transaction
-btcTxVerifier.verifyBtcTx(
-    rawTx,
-    utxos,
-    blockHeight,
-    merkleProof,
-    blockMerkleRoot,
-    txHash,
-    proofPositions
-);
+```hardhat
+ npx hardhat run scripts/verifyBtcTx.js --network mainnet
 ```
+VerifyBtcTx.js includes how to obtain merkleroot and merkleproof through btc transaction ID, as well as how to verify the transaction process. Please read carefully
 
 After submitting the transaction, developers can query the verification status using the `getTxZkpStatus` function and retrieve detailed information of the transaction using the `getVerifiedTxDetails` function once the verification is successful.
 
