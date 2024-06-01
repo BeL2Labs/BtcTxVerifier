@@ -19,16 +19,19 @@ interface IBtcTxVerifier {
                          bytes32[] memory merkleProof,
                          bytes32 blockMerkleRoot,
                          bytes32 txHash,
-                         bool[] memory proofPositions) external;
+                         bool[] memory proofPositions,
+                         bytes memory script) external;
 
     function getTxVerifyRecord(bytes32 tx) external view returns(TxVerifyRecord memory);
 
     function getTxZkpStatus(bytes32 tx) external view returns(ProofStatus);
 
     function getVerifiedTxDetails(bytes32 txHash, string memory network) external view returns(
-        string[] memory btcAddresses,
-        uint256[] memory amounts,
-        uint256 fee);
+        bytes32,
+        Input[] memory,
+        Output[] memory,
+        bytes memory, //script
+        ProofStatus);
 
     function getLastBtcHeight() external view returns(uint256);
 

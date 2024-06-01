@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 import "./interfaces/IBtcTxVerifier.sol";
 import "./interfaces/IBtcBlockHeader.sol";
@@ -32,6 +33,7 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
     /// @param blockMerkleRoot The Merkle root of the block
     /// @param txHash The hash of the Bitcoin transaction
     /// @param proofPositions The positions of the transaction in the Merkle tree
+    /// @param script Lock Script for Bitcoin, used to generate bitcoin addresses
     function verifyBtcTx(
         bytes memory rawTx,
         bytes[] memory utxos,
@@ -39,7 +41,8 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
         bytes32[] memory merkleProof,
         bytes32 blockMerkleRoot,
         bytes32 txHash,
-        bool[] memory proofPositions
+        bool[] memory proofPositions,
+        bytes memory script
     ) external {
         require(rawTx.length > 0, "InvalidRawTx");
         require(utxos.length > 0, "InvalidUtxos");
@@ -52,11 +55,10 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
         require(calculatedRoot == blockMerkleRoot, "InvalidMerkleProof");
         
         require(btcTxZkpAddr != address(0), "InvalidBtcTxZkpAddress");
-        bytes32 zkpID = IBtcTxZkp(btcTxZkpAddr).addTransaction(rawTx, utxos);
+        string memory prover = Strings.toHexString(msg.sender);
+        bytes32 zkpID = IBtcTxZkp(btcTxZkpAddr).addTransaction(rawTx, utxos,prover, script);
 
         txVerifyRecords[txHash] = TxVerifyRecord(btcTxZkpAddr, zkpID);
-        zkpID = MerkleProof.reverseBytes32(zkpID);
-        require(zkpID == txHash, "ZkpIDMismatch");
         emit BtcTxVerified(txHash);
     }
 
@@ -81,13 +83,17 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
     /// @dev Get the details of a verified Bitcoin transaction
     /// @param txHash The hash of the Bitcoin transaction
     /// @param network The network of the transaction
-    /// @return btcAddresses The Bitcoin addresses of the transaction
-    /// @return amounts The amounts of the transaction
-    /// @return fee The transaction fee
+    /// @return txhash The Bitcoin tx of the transaction
+    /// @return inputs The inputs of the transaction
+    /// @return outputs The outputs of the transaction
+    /// @return script Lock Script for Bitcoin, used to generate bitcoin addresses
+    /// @return ProofStatus The status of the zkp verified;
     function getVerifiedTxDetails(bytes32 txHash, string memory network) external view returns(
-        string[] memory btcAddresses,
-        uint256[] memory amounts,
-        uint256 fee
+        bytes32,
+        Input[] memory,
+        Output[] memory,
+        bytes memory, //script
+        ProofStatus
     ) {
         TxVerifyRecord memory record = txVerifyRecords[txHash];
         if (record.btcTxZkpAddr == address(0)) {

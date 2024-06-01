@@ -13,16 +13,53 @@ struct RawTransaction {
     ProofStatus status;
 }
 
+enum AddrType {
+    EMPTY,
+    P2PK,
+    P2PKH,
+    P2MS,
+    P2SH,
+    P2WPKH,
+    P2WSH,
+    P2TR
+}
+struct Input {
+    bytes32 txid;
+    uint256 amount;
+}
+
+struct Output {
+    AddrType txType;
+    string addr;
+    uint256 amount;
+}
+
+enum ProvingStatus {
+    OK,
+    InvalidScript
+}
+
 interface IBtcTxZkp {
-    function addTransaction(bytes memory rawData, bytes[] memory utxos) external returns (bytes32);
+    function addTransaction(
+        bytes memory rawData,
+        bytes[] memory utxos,
+        string memory prover,
+        bytes memory script
+    ) external returns (bytes32);
+
 
     function getOrderStatus(bytes32 hash) external view returns(ProofStatus);
 
-    function getOrderData(bytes32 hash) external view returns(bytes memory);
+    function getOrderDetails(bytes32 hash, string memory network) external view returns (
+        bytes32,
+        Input[] memory,
+        Output[] memory,
+        bytes memory, //script
+        ProofStatus);
 
-    function getOrderUtxos(bytes32 hash) external view returns(bytes[] memory);
-
-    function getOrderDetails(bytes32 hash, string memory network) external view returns(string[] memory btcAddrs,
-        uint256[] memory amounts,
-        uint256 txfee);
+    function getProvingDetail(bytes32 hash, string memory network) external view returns (
+        bytes32,
+        ProvingStatus,
+        string memory //proverAddress
+    );
 }
