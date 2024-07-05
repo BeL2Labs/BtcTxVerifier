@@ -88,7 +88,9 @@ async function main() {
     const contractFactory = await ethers.getContractFactory('BtcTxVerifier',account)
     let contract  = await contractFactory.connect(account).attach(contractAddress);
 
-    let tx = await contract.verifyBtcTx(params["txRawData"], params["utxos"], params["blockHeight"], params["proof"], params["merkleRoot"], params["leaf"], params["positions"]);
+    let script = "0x6321020e0ae8c8fb9645dbdf6425b173f8ade49b5abbac20d887d98e8515d02a97ddddad210249d5b1a12045ff773b85033d3396faa32fd579cee25c4f7bb6aef6103228bd72ac676321020e0ae8c8fb9645dbdf6425b173f8ade49b5abbac20d887d98e8515d02a97ddddad210366e0c54864cf3468e2d9f047cfd6e971ab4c0b779499b9d8bbc7000178dfe627ac676303d32c40b275210249d5b1a12045ff773b85033d3396faa32fd579cee25c4f7bb6aef6103228bd72ada82014e984b07aac76f34326012cbbe57636387f2d60c4211b26bb5674d681a25a66876703703140b27521020e0ae8c8fb9645dbdf6425b173f8ade49b5abbac20d887d98e8515d02a97ddddac686868"
+    let tx = await contract.verifyBtcTx(params["txRawData"], params["utxos"], params["blockHeight"], params["proof"],
+        params["merkleRoot"], params["leaf"], params["positions"], script);
     console.log("tx == ", tx.hash);
 }
 
