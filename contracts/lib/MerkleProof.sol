@@ -7,6 +7,7 @@ library MerkleProof {
         bytes32 leaf,
         bool[] memory positions
     ) internal pure returns (bytes32) {
+        require(proof.length == positions.length, "InvalidProof");
         bytes32 computedHash = reverseBytes32(leaf);
         for (uint256 i = 0; i < proof.length; i++) {
             bytes32 proofElement = reverseBytes32(proof[i]);
