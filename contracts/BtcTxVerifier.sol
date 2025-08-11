@@ -20,6 +20,8 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
 
     /// @dev Initialize the contract
     function initialize(address _btcTxZkpAddr, address _btcHeaderAddr) public initializer {
+        require(_btcTxZkpAddr != address(0), "InvalidBtcTxZkpAddress");
+        require(_btcHeaderAddr != address(0), "InvalidBtcHeaderAddress");
         __Ownable_init(msg.sender);
         btcTxZkpAddr = _btcTxZkpAddr;
         btcHeaderAddr = _btcHeaderAddr;
