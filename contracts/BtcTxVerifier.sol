@@ -47,6 +47,7 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
         require(rawTx.length > 0, "InvalidRawTx");
         require(utxos.length > 0, "InvalidUtxos");
         require(merkleProof.length > 0, "InvalidMerkleProof");
+        require(txVerifyRecords[txHash].zkpID == bytes32(0), "RecordExists");
 
         BlockHeader memory header = IBtcBlockHeader(btcHeaderAddr).getBlockByHeight(blockHeight);
         require(header.merkleRoot == blockMerkleRoot, "InvalidBlockMerkleRoot");
@@ -105,6 +106,7 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
     /// @dev Set the address of the Bitcoin block header contract
     /// @param newBtcHeaderAddr The address of the new Bitcoin block header contract
     function setBtcHeaderAddr(address newBtcHeaderAddr) external onlyOwner {
+        require(newBtcHeaderAddr != address(0), "InvalidBtcHeaderAddress");
         emit BtcHeaderAddrChanged(btcHeaderAddr, newBtcHeaderAddr);
         btcHeaderAddr = newBtcHeaderAddr;
     }
@@ -112,6 +114,7 @@ contract BtcTxVerifier is OwnableUpgradeable, IBtcTxVerifier {
     /// @dev Set the address of the Bitcoin transaction ZKP contract
     /// @param newBtcTxZkpAddr The address of the new Bitcoin transaction ZKP contract 
     function setBtcTxZkpAddr(address newBtcTxZkpAddr) external onlyOwner {
+        require(newBtcTxZkpAddr != address(0), "InvalidBtcTxZkpAddress");
         emit BtcTxZkpAddrChanged(btcTxZkpAddr, newBtcTxZkpAddr);
         btcTxZkpAddr = newBtcTxZkpAddr;
     }
