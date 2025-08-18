@@ -22,9 +22,9 @@ interface IBtcTxVerifier {
                          bool[] memory proofPositions,
                          bytes memory script) external;
 
-    function getTxVerifyRecord(bytes32 tx) external view returns(TxVerifyRecord memory);
+    function getTxVerifyRecord(bytes32 txHash) external view returns(TxVerifyRecord memory);
 
-    function getTxZkpStatus(bytes32 tx) external view returns(ProofStatus);
+    function getTxZkpStatus(bytes32 txHash) external view returns(ProofStatus);
 
     function getVerifiedTxDetails(bytes32 txHash, string memory network) external view returns(
         bytes32,
